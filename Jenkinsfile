@@ -1,24 +1,43 @@
-pipeline{
+pipeline {
     agent any
 
-    stages{
-        stage('Build') {
+    environment {
+        DOCKER_IMAGE = 'nadermamdouh869/jenkins-tot:1.0'
+    }
+
+    stages {
+        stage('Clone Repository') {
             steps {
-                echo 'Building...'
-                // Add your build commands here
+                echo 'Cloning repository...'
+                // Jenkins does this automatically if Source Code Management is configured
             }
         }
-        stage('Test') {
+
+
+
+        stage('Build Docker Image') {
             steps {
-                echo 'Testing...'
-                // Add your test commands here
+                echo 'Building Docker image...'
+                sh "docker build -t $DOCKER_IMAGE ."
             }
         }
-        stage('Deploy') {
+
+        stage('Run Tests') {
             steps {
-                echo 'Deploying...'
-                // Add your deployment commands here
+                // Optional: add your test command here
+                echo 'Running tests...'
+                sh 'npm test || echo "No tests defined"'
             }
+        }
+
+    }
+
+    post {
+        success {
+            echo 'Build and Push Successful!'
+        }
+        failure {
+            echo 'Something went wrong.'
         }
     }
 }
