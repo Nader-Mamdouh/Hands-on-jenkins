@@ -19,8 +19,8 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 sh "docker build -t $DOCKER_IMAGE ."
-                sh "docker ps -a "
-                sh "docker rm $DOCKER_IMAGE"
+                sh "docker images "
+                sh "docker rmi $DOCKER_IMAGE"
             }
         }
 
