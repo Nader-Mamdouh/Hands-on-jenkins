@@ -19,6 +19,9 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 sh "docker build -t $DOCKER_IMAGE ."
+                sh "docker ps "
+                sh "docker stop $DOCKER_IMAGE"
+                sh "docker rm $DOCKER_IMAGE"
             }
         }
 
